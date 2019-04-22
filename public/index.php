@@ -45,52 +45,52 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 
 $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
-$map->get('index','/Cursos/IntroduccionPHP/',[
+$map->get('index','/',[
     'controller'=> 'App\Controllers\IndexController',
     'action' => 'indexAction'
 ]);
-$map->get('addJobs','/Cursos/IntroduccionPHP/job/add', [
+$map->get('addJobs','/job/add', [
     'controller'=> 'App\Controllers\JobsController',
     'action' => 'getAddJobAction'
 ]);
-$map->get('addProjects','/Cursos/IntroduccionPHP/project/add', [
+$map->get('addProjects','/project/add', [
     'controller'=> 'App\Controllers\ProjectsController',
     'action' => 'getAddProjectAction'
 ]);
-$map->get('addUsers','/Cursos/IntroduccionPHP/user/add', [
+$map->get('addUsers','/user/add', [
     'controller'=> 'App\Controllers\UsersController',
     'action' => 'getAddUserAction'
 ]);
 
-$map->get('loginForm','/Cursos/IntroduccionPHP/login', [
+$map->get('loginForm','/login', [
     'controller'=> 'App\Controllers\AuthController',
     'action' => 'getLogin'
 ]);
-$map->get('logout','/Cursos/IntroduccionPHP/logout', [
+$map->get('logout','/logout', [
     'controller'=> 'App\Controllers\AuthController',
     'action' => 'getLogout'
 ]);
-$map->get('admin','/Cursos/IntroduccionPHP/admin', [
+$map->get('admin','/admin', [
     'controller'=> 'App\Controllers\AdminController',
     'action' => 'getIndex',
     'auth' => true
 ]);
 
 
-$map->post('saveJobs','/Cursos/IntroduccionPHP/job/add', [
+$map->post('saveJobs','/job/add', [
     'controller'=> 'App\Controllers\JobsController',
     'action' => 'getAddJobAction'
 ]);
 
-$map->post('saveProjects','/Cursos/IntroduccionPHP/project/add', [
+$map->post('saveProjects','/project/add', [
     'controller'=> 'App\Controllers\ProjectsController',
     'action' => 'getAddProjectAction'
 ]);
-$map->post('saveUser','/Cursos/IntroduccionPHP/user/add', [
+$map->post('saveUser','/user/add', [
     'controller'=> 'App\Controllers\UsersController',
     'action' => 'getAddUserAction'
 ]);
-$map->post('auth','/Cursos/IntroduccionPHP/auth', [
+$map->post('auth','/auth', [
     'controller'=> 'App\Controllers\AuthController',
     'action' => 'postLogin'
 ]);
