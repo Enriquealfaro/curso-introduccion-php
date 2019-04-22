@@ -45,7 +45,7 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 
 $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
-$map->get('index','/',[
+$map->get('index','enriquealfaro.github.io/curso-introduccion-php/',[
     'controller'=> 'App\Controllers\IndexController',
     'action' => 'indexAction'
 ]);
