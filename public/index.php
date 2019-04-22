@@ -9,9 +9,9 @@ require_once '../vendor/autoload.php';
 
 session_start();
 
-//$dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
+$dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 //director inicial
-//$dotenv->load();
+$dotenv->load();
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
