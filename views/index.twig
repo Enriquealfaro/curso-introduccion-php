@@ -1,0 +1,106 @@
+{% extends "layout.twig"%}
+
+
+{% block content %}
+
+ <div id="resume-header" class="row">
+      <div class="col-3">
+        <img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">
+      </div>
+      <div class="col">
+        <h1>{{name}}</hi>
+        <h2>PHP Developer</h2>
+        <ul>
+          <li>Mail: alksdfj</li>
+          <li>phone: sdfasdf</li>
+          <li>linkedIn: asdfa</li>
+          <li>Twitter: afasdf</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h2 class="border-bottom-gray" >Carrer Summary</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <h3 class="border-bottom-gray" >Work Experience</h3>
+          <ul>
+            {% for job in jobs %}
+              <li class= "work-position">
+              <div class="col-3">
+                <h5>{{ job.title }}</h5>
+                <p>{{ job.description }}</p>
+              </div>
+              <div class="">
+                <img src="{{ job.img }}" style="width: 100px;" class="col"alt="foto">
+              </div>
+
+              </li>
+              {% endfor %}
+          </ul>
+       </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <h3 class="border-bottom-gray" >Project</h3>
+         
+            {% for project in projects %}
+              <div class= "work-position">
+                <div class="col-3">
+                  <h5>{{ project.title }}</h5>
+                </div >
+                <div class="col">
+                  <img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">
+                  <p> {{project.description}}</p>
+                  <strong>Techologies used:</strong>
+                  <span class="badge badge-secondary">PHP</span>
+                  <span class="badge badge-secondary">HTML</span>
+                  <span class="badge badge-secondary">CSS</span>
+                </div>
+
+              </div>
+              {% endfor %}
+          
+       </div>
+                  
+              {# <div class='col'>
+                
+              </div>
+             #}
+
+      <div class="col-3 offset-col-9 col-md col-sm">
+        <h3 class="border-bottom-gray" >Skills & Tools</h3>
+        <h4>Backend</h4>
+        <ul>
+          <li>PHP</li>
+        </ul>
+        <h4>Frontend</h4>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+        </ul>
+        <h4>Frameworks</h4>
+        <ul>
+          <li>Laravel</li>
+          <li>Bootstrap</li>
+        </ul>
+        <h3 class="border-bottom-gray" >Languages</h3>
+        <ul>
+          <li>Spanish</li>
+          <li>English</li>
+        </ul>
+      </div>
+   </div>
+    <div id="resume-footer" class="row">
+      <div class="col">
+          Designed by @hectorbenitez
+      </div>
+    </div>
+
+{% endblock%}
