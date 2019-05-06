@@ -16,7 +16,9 @@ $dotenv->load();
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
 
+$container = new DI\Container();
 $capsule = new Capsule;
+
 
 $capsule->addConnection([
     'driver'    => getenv('DB_DRIVER'),
@@ -45,51 +47,80 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 
 $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
+
+/*-------------------- Index ruta  */
 $map->get('index','/',[
     'controller'=> 'App\Controllers\IndexController',
     'action' => 'indexAction'
 ]);
-$map->get('addJobs','/job/add', [
+
+/*---------------------addJobs     */
+$map->get('addJob','/job/add', [
     'controller'=> 'App\Controllers\JobsController',
     'action' => 'getAddJobAction'
 ]);
-$map->get('addProjects','/project/add', [
-    'controller'=> 'App\Controllers\ProjectsController',
-    'action' => 'getAddProjectAction'
-]);
-$map->get('addUsers','/user/add', [
-    'controller'=> 'App\Controllers\UsersController',
-    'action' => 'getAddUserAction'
-]);
-
-$map->get('loginForm','/login', [
-    'controller'=> 'App\Controllers\AuthController',
-    'action' => 'getLogin'
-]);
-$map->get('logout','/logout', [
-    'controller'=> 'App\Controllers\AuthController',
-    'action' => 'getLogout'
-]);
-$map->get('admin','/admin', [
-    'controller'=> 'App\Controllers\AdminController',
-    'action' => 'getIndex',
-    'auth' => true
-]);
-
-
 $map->post('saveJobs','/job/add', [
     'controller'=> 'App\Controllers\JobsController',
     'action' => 'getAddJobAction'
 ]);
+/*---------------------IndexJobs */
+$map->get('indexJob','/jobs', [
+    'controller'=> 'App\Controllers\JobsController',
+    'action' => 'indexAction'
+]);
+/*---------------------deleteJobs */
+$map->get('deleteJobs','/jobs/delete', [
+    'controller'=> 'App\Controllers\JobsController',
+    'action' => 'deleteAction'
+]);
+/*---------------------forceDeleteJobs */
+$map->get('forceDeleteJobs','/jobs/forceDelete', [
+    'controller'=> 'App\Controllers\JobsController',
+    'action' => 'forceDeleteAction'
+]);
+/*---------------------restoreJobs */
+$map->get('restoreJobs','/jobs/restore', [
+    'controller'=> 'App\Controllers\JobsController',
+    'action' => 'restoreAction'
+]);
+/*---------------------addProjects */
 
+$map->get('addProjects','/project/add', [
+    'controller'=> 'App\Controllers\ProjectsController',
+    'action' => 'getAddProjectAction'
+]);
 $map->post('saveProjects','/project/add', [
     'controller'=> 'App\Controllers\ProjectsController',
     'action' => 'getAddProjectAction'
+]);
+/*---------------------addUssers */
+$map->get('addUsers','/user/add', [
+    'controller'=> 'App\Controllers\UsersController',
+    'action' => 'getAddUserAction'
 ]);
 $map->post('saveUser','/user/add', [
     'controller'=> 'App\Controllers\UsersController',
     'action' => 'getAddUserAction'
 ]);
+/*--------------------loginForm */
+
+$map->get('loginForm','/login', [
+    'controller'=> 'App\Controllers\AuthController',
+    'action' => 'getLogin'
+]);
+/*--------------------logout  */
+$map->get('logout','/logout', [
+    'controller'=> 'App\Controllers\AuthController',
+    'action' => 'getLogout'
+]);
+/*---------------------admin */
+$map->get('admin','/admin', [
+    'controller'=> 'App\Controllers\AdminController',
+    'action' => 'getIndex',
+    'auth' => true
+]);
+/*---------------------auth */
+
 $map->post('auth','/auth', [
     'controller'=> 'App\Controllers\AuthController',
     'action' => 'postLogin'
@@ -99,46 +130,11 @@ $map->post('auth','/auth', [
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 
-function printJob($jobs){
-    // if($jobs->visible == false){
-    //   return;  
-    // }
-    echo '<li class="work-position">';
-    echo '<h5>' . $jobs->title. '</h5>';
-    echo '<p>'  . $jobs->description . '</p>';
-    echo '<p>'  . $jobs->getDurationAsString() . '</p>';
-    echo '<strong>Achievements:</strong>';
-    echo '<ul>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '</ul>';
-    echo '</li>';
-  }
-  
-    function printProject($projects){
-      // if($jobs->visible == false){
-      //   return;
-      // }
-      echo'<h5>' . $projects->title . '</h5>';
-      echo'<div class="row">';
-      echo'<div class="col-3">';
-      echo'<img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">';
-      echo'</div>';
-      echo'<div class="col">';
-      echo'<p>' . $projects->description . '</p>';
-      echo'<strong>Technologies used:</strong>';
-      echo'<span class="badge badge-secondary">PHP</span>';
-      echo'<span class="badge badge-secondary">HTML</span>';
-      echo'<span class="badge badge-secondary">CSS</span>';
-      echo'</div>';
-      echo'</div>';
-    }
-
 if(!$route){
     echo 'No route';
 }else{
     $handlerData = $route->handler;
+    //va a instanciar la clase con el contenido de esta
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
     $needsAuth = $handlerData['auth'] ?? false;
@@ -149,10 +145,13 @@ if(!$route){
          die;
     }
 
-    $controller = new $controllerName;
+    $controller =  $container->get($controllerName);
+    //$controller = new $controllerName;
     $response = $controller->$actionName($request);
 
     foreach($response->getHeaders() as $name => $values)
+    //para cada header que tengamos su valor como el nombre
+    // y el interior el valor de cad nombre
     {
         foreach($values as $value){
             header(sprintf('%s: %s', $name, $value), false);
@@ -161,6 +160,7 @@ if(!$route){
         }
     }
     http_response_code($response->getStatusCode());
+    //nos permite establecer el codigo de respueta
     echo $response->getBody();
 
 }

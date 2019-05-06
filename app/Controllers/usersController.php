@@ -6,6 +6,7 @@ use Respect\Validation\Validator as Validator;
 
 class UsersController extends BaseController {
     public function getAddUserAction($request){
+        $responseMessage = null;
 
         if($request->getMethod() == 'POST'){
             $postData = $request->getParsedBody();

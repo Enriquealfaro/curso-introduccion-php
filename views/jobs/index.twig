@@ -1,0 +1,46 @@
+{% extends "layout.twig" %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-6">
+            <h1>Jobs</h1>
+            <table class="table">
+                <tr>
+                    <th>Job Title</th>
+                    <th>Delete</th>
+                </tr>
+                {% for job in jobs %}
+                     {% if job.deleted_at == null %}
+                        <tr>
+                            <td>{{job.title}}</td>
+                            <td><a href="/jobs/delete?id={{job.id}}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div >
+        <div class="col-">
+            <h1>Jobs borrador</h1>
+            <table class="table">
+                <tr>
+                    <th>Job Title</th>
+                    <th>Delete</th>
+                </tr>
+                {% for job in jobs %}
+                    {% if job.deleted_at != null  %}
+                        <tr>
+                            <td>{{job.title}}</td>
+                            <td><a href="/jobs/forceDelete?id={{job.id}}">Delete perm</a>
+                            <td><a href="/jobs/restore?id={{job.id}}">restore </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
